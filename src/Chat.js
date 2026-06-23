@@ -59,23 +59,39 @@ function DialogueBox({ data, onClose }) {
   const copy = () => { navigator.clipboard.writeText(yamlText || ''); setCopied(true); setTimeout(() => setCopied(false), 2000); };
 
   return (
-    <div className="dialogue-overlay" onClick={onClose}>
-      <div className="dialogue-box" onClick={e => e.stopPropagation()}>
-        <div className="dialogue-header">
-          <span>
+    <>
+      {/* backdrop */}
+      <div onClick={onClose} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 100 }} />
+
+      {/* panel */}
+      <div style={{
+        position: 'fixed', top: 20, right: 20, bottom: 20, width: 540,
+        background: '#1a1d27', border: '1px solid #3d4466', borderRadius: 14,
+        boxShadow: '0 20px 60px rgba(0,0,0,0.5)', zIndex: 101,
+        display: 'flex', flexDirection: 'column',
+      }}>
+        {/* header - fixed height */}
+        <div style={{ flexShrink: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 18px', borderBottom: '1px solid #2d3148' }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: '#7c8cf8' }}>
             {status === true ? '✅ Task Completed' : status === false ? '❌ Task Failed' : 'Output'}
           </span>
           <button className="dialogue-close" onClick={onClose}>✕</button>
         </div>
-        <div className="dialogue-body">
-          {message && <div className="dialogue-message">{message}</div>}
+
+        {/* scrollable body */}
+        <div style={{ flex: '1 1 0', overflowY: 'auto', overflowX: 'hidden', padding: '16px 18px' }}>
+          {message && <div className="dialogue-message" style={{ marginBottom: 12 }}>{message}</div>}
           {yamlText && (
-            <div className="code-wrapper">
+            <div className="code-wrapper" style={{ marginBottom: 12 }}>
               <div className="code-header">
                 <span>yaml</span>
                 <button onClick={copy}>{copied ? '✓ Copied' : 'Copy'}</button>
               </div>
-              <SyntaxHighlighter language="yaml" style={oneDark} customStyle={{ margin: 0, borderRadius: '0 0 8px 8px', fontSize: 13 }}>
+              <SyntaxHighlighter
+                language="yaml"
+                style={oneDark}
+                customStyle={{ margin: 0, borderRadius: '0 0 8px 8px', fontSize: 13, overflowX: 'auto', overflowY: 'visible', maxHeight: 'none' }}
+              >
                 {yamlText}
               </SyntaxHighlighter>
             </div>
@@ -83,7 +99,7 @@ function DialogueBox({ data, onClose }) {
           {note && <div className="dialogue-note">💡 {note}</div>}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

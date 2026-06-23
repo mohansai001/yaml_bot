@@ -286,8 +286,10 @@ body {
 
 .dialogue-body {
   padding: 16px 18px;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
   flex: 1;
+  min-height: 0;
   font-size: 13.5px;
   line-height: 1.7;
   color: #e2e8f0;
@@ -295,7 +297,8 @@ body {
   flex-direction: column;
   gap: 12px;
 }
-.dialogue-body::-webkit-scrollbar { width: 4px; }
+.dialogue-body::-webkit-scrollbar { width: 6px; }
+.dialogue-body::-webkit-scrollbar-track { background: #12141e; }
 .dialogue-body::-webkit-scrollbar-thumb { background: #3d4466; border-radius: 4px; }
 
 .dialogue-message {
@@ -323,6 +326,13 @@ body {
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid #2d3148;
+  min-width: 0;
+}
+.code-wrapper pre {
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  white-space: pre !important;
+  word-break: normal !important;
 }
 .code-header {
   display: flex;
